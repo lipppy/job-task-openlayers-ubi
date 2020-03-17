@@ -13,7 +13,6 @@ import $ from "jquery";
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
-var closer = document.getElementById('popup-closer');
 var select = null;
 
 /**
@@ -26,16 +25,6 @@ var overlay = new Overlay({
         duration: 250
     }
 });
-
-/**
- * Add a click handler to hide the popup.
- * @return {boolean} Don't follow the href.
- */
-closer.onclick = function() {
-    overlay.setPosition(undefined);
-    closer.blur();
-    return false;
-};
 
 const centerAustria = [14.10, 47.5];
 const centerAustriaWebMercator = fromLonLat(centerAustria);
@@ -136,7 +125,7 @@ $("a.region").on("click", function() {
     gidRegion = $(this).attr("data-region-gid");
 
     // Set Endpoint to Get Region Information
-    urlRegion = "http://ubimet.localhost/region/" + gidRegion;
+    urlRegion = "region/" + gidRegion;
 
     // Get Region Information & Assign To Map c Set Interactions
     var jqxhr = $.getJSON(urlRegion, function (data) {
@@ -192,7 +181,6 @@ $("a.region").on("click", function() {
         map.removeInteraction(select);
         map.addInteraction(select);
         select.on('select', function(e) {
-            console.log(e);
             var selectedFeature = e.selected[0];
             var coordinate = e.mapBrowserEvent.coordinate
             var hdms = toStringHDMS(toLonLat(coordinate));
@@ -253,3 +241,15 @@ $("a.region").on("click", function() {
     });
 });
 
+$(document).ready(function() {
+    /**
+     * Add a click handler to hide the popup.
+     * @return {boolean} Don't follow the href.
+     */
+    var closer = document.getElementById('popup-closer');
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+    };
+});

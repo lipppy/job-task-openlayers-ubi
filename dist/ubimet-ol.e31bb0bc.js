@@ -79376,7 +79376,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
-var closer = document.getElementById('popup-closer');
 var select = null;
 /**
  * Create an overlay to anchor the popup to the map.
@@ -79389,17 +79388,6 @@ var overlay = new _Overlay.default({
     duration: 250
   }
 });
-/**
- * Add a click handler to hide the popup.
- * @return {boolean} Don't follow the href.
- */
-
-closer.onclick = function () {
-  overlay.setPosition(undefined);
-  closer.blur();
-  return false;
-};
-
 var centerAustria = [14.10, 47.5];
 var centerAustriaWebMercator = (0, _proj.fromLonLat)(centerAustria);
 var basemap = new _layer.Tile({
@@ -79491,7 +79479,7 @@ var infoRegion;
   nameRegion = (0, _jquery.default)(this).attr("data-region-name");
   gidRegion = (0, _jquery.default)(this).attr("data-region-gid"); // Set Endpoint to Get Region Information
 
-  urlRegion = "http://ubimet.localhost/region/" + gidRegion; // Get Region Information & Assign To Map c Set Interactions
+  urlRegion = "region/" + gidRegion; // Get Region Information & Assign To Map c Set Interactions
 
   var jqxhr = _jquery.default.getJSON(urlRegion, function (data) {
     // Region Info
@@ -79535,7 +79523,6 @@ var infoRegion;
     map.removeInteraction(select);
     map.addInteraction(select);
     select.on('select', function (e) {
-      console.log(e);
       var selectedFeature = e.selected[0];
       var coordinate = e.mapBrowserEvent.coordinate;
       var hdms = (0, _coordinate.toStringHDMS)((0, _proj.toLonLat)(coordinate));
@@ -79590,6 +79577,19 @@ var infoRegion;
   }).always(function () {//console.log("complete");
   });
 });
+(0, _jquery.default)(document).ready(function () {
+  /**
+   * Add a click handler to hide the popup.
+   * @return {boolean} Don't follow the href.
+   */
+  var closer = document.getElementById('popup-closer');
+
+  closer.onclick = function () {
+    overlay.setPosition(undefined);
+    closer.blur();
+    return false;
+  };
+});
 },{"ol/ol.css":"node_modules/ol/ol.css","ol/Map":"node_modules/ol/Map.js","ol/View":"node_modules/ol/View.js","ol/format/GeoJSON":"node_modules/ol/format/GeoJSON.js","ol/layer":"node_modules/ol/layer.js","ol/source":"node_modules/ol/source.js","ol/style":"node_modules/ol/style.js","ol/proj":"node_modules/ol/proj.js","ol/interaction/Select":"node_modules/ol/interaction/Select.js","ol/Overlay":"node_modules/ol/Overlay.js","ol/coordinate":"node_modules/ol/coordinate.js","jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -79618,7 +79618,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50118" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51032" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
